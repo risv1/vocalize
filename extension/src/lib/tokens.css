@@ -1,0 +1,246 @@
+/* Design tokens adapted from the project's editorial brand system:
+   hairline-only depth, single scarce accent, 4px spacing scale, 8/12px radii.
+   Palette inverted to a neutral-950 dark default with light/system support. */
+
+:root {
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-base: 16px;
+  --space-md: 20px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 9999px;
+
+  --font-sans: "Inter", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Set at runtime by lib/theme.ts applyAccentColor() from the user's chosen
+     preset (see lib/types.ts ACCENT_PRESETS); active/glow shades derive from
+     it via color-mix() so re-theming only ever touches this one variable. */
+  --accent: #f54e00;
+  --accent-active: color-mix(in srgb, var(--accent) 80%, black);
+  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --accent-glow: color-mix(in srgb, var(--accent) 55%, transparent);
+
+  /* Light palette (also the explicit [data-theme="light"] override) */
+  --canvas: #f7f7f4;
+  --canvas-soft: #fafaf7;
+  --surface-card: #ffffff;
+  --surface-strong: #e6e5e0;
+  --hairline: #e6e5e0;
+  --hairline-soft: #efeee8;
+  --hairline-strong: #cfcdc4;
+  --ink: #26251e;
+  --body-text: #5a5852;
+  --muted: #807d72;
+  --muted-soft: #a09c92;
+  --on-accent: #ffffff;
+  --success: #1f8a65;
+  --error: #cf2d56;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark default: neutral-950 base, following system preference */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --canvas: #0a0a0a;
+    --canvas-soft: #131313;
+    --surface-card: #171717;
+    --surface-strong: #262626;
+    --hairline: #272727;
+    --hairline-soft: #1f1f1f;
+    --hairline-strong: #3a3a3a;
+    --ink: #fafafa;
+    --body-text: #d4d4d4;
+    --muted: #a3a3a3;
+    --muted-soft: #737373;
+    --on-accent: #ffffff;
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Explicit dark override wins regardless of system preference */
+:root[data-theme="dark"] {
+  --canvas: #0a0a0a;
+  --canvas-soft: #131313;
+  --surface-card: #171717;
+  --surface-strong: #262626;
+  --hairline: #272727;
+  --hairline-soft: #1f1f1f;
+  --hairline-strong: #3a3a3a;
+  --ink: #fafafa;
+  --body-text: #d4d4d4;
+  --muted: #a3a3a3;
+  --muted-soft: #737373;
+  --on-accent: #ffffff;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.hairline {
+  border: 1px solid var(--hairline);
+}
+
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.15s ease;
+}
+
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 88%, #ff8a3d));
+  color: var(--on-accent);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  height: 40px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 10px var(--accent-glow);
+  transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 4px 16px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  background: var(--accent-active);
+}
+
+.btn-primary:disabled {
+  background: var(--muted-soft);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--surface-card);
+  color: var(--ink);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  height: 40px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.btn-icon {
+  background: var(--surface-card);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-pill);
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+
+.btn-icon:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.btn-icon:active {
+  transform: scale(0.94);
+}
+
+.text-input,
+select {
+  background: var(--canvas-soft);
+  color: var(--ink);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.text-input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.badge-pill {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  display: inline-block;
+}
+
+/* --- Assistant orb: canvas-rendered, see lib/orb-canvas.ts --- */
+.orb-canvas {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Floating blob: animated SVG glow behind the orb (feTurbulence +
+   feDisplacementMap driven by SMIL, no JS) — see popup.html/options.html --- */
+.blob-bg {
+  position: absolute;
+  inset: -40px auto auto -40px;
+  width: 140px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.9;
+  filter: blur(2px);
+}

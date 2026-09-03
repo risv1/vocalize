@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Vocalize Settings</title>
+    <link rel="stylesheet" href="../lib/tokens.css" />
+    <link rel="stylesheet" href="./options.css" />
+  </head>
+  <body>
+    <main class="options">
+      <h1 class="page-title">Vocalize settings</h1>
+
+      <section class="card">
+        <h2 class="section-title">Server</h2>
+        <label class="field">
+          <span>Server URL</span>
+          <input id="server-url" class="text-input" type="text" placeholder="http://127.0.0.1:8420" />
+        </label>
+        <div id="server-status" class="muted status-text"></div>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">Appearance</h2>
+        <label class="field">
+          <span>Theme</span>
+          <select id="theme-select">
+            <option value="system">Match system</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark (black)</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Accent color</span>
+          <div id="accent-swatches" class="accent-swatches"></div>
+        </label>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">Voice</h2>
+        <label class="field">
+          <span>Default voice</span>
+          <select id="voice-select"></select>
+        </label>
+        <label class="field">
+          <span>Speed (<span id="speed-value">1.0</span>x)</span>
+          <input id="speed-range" type="range" min="0.5" max="2" step="0.1" />
+        </label>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">Providers</h2>
+        <p class="muted">Configured server-side via <code>.env</code>. Restart the server after changes.</p>
+        <div id="providers-list" class="providers-list"></div>
+        <label class="field">
+          <span>Model override for <span id="active-llm-name">the active LLM provider</span> (optional)</span>
+          <input
+            id="llm-model-input"
+            class="text-input"
+            type="text"
+            placeholder="Leave blank to use the server's configured default"
+          />
+        </label>
+        <p id="llm-model-hint" class="muted status-text"></p>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">Chat & insights</h2>
+        <label class="checkbox-field">
+          <input type="checkbox" id="speak-toggle" />
+          <span>Speak chat and insight responses aloud</span>
+        </label>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">Related-page crawling</h2>
+        <label class="checkbox-field">
+          <input type="checkbox" id="crawl-toggle" />
+          <span>Allow crawling linked pages (respects robots.txt) for extra chat context</span>
+        </label>
+      </section>
+
+      <div id="saved-indicator" class="saved-indicator" hidden>Saved</div>
+    </main>
+    <script type="module" src="./options.ts"></script>
+  </body>
+</html>

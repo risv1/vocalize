@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Env
+.env
+.env.local
+
+# Model weights (downloaded from the HF Hub on first use) and conversation DB
+server/hf_cache/
+server/data/
+
+# OS
+.DS_Store

@@ -1,0 +1,19 @@
+services:
+  vocalize-server:
+    build:
+      context: ./server
+      args:
+        EXTRAS: kokoro
+    ports:
+      - "8420:8420"
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server/hf_cache:/app/hf_cache
+      - ./server/data:/app/data
+    # Lets OLLAMA_BASE_URL=http://host.docker.internal:11434 reach Ollama
+    # running on the host machine (native on Docker Desktop/OrbStack; this
+    # mapping makes it work on plain Linux Docker too).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

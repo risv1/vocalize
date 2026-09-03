@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Vocalize</title>
+    <link rel="stylesheet" href="../lib/tokens.css" />
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <div class="popup">
+      <header class="popup-header">
+        <svg class="blob-bg" viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <filter id="blob-goo">
+              <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="7" result="noise">
+                <animate
+                  attributeName="baseFrequency"
+                  dur="22s"
+                  values="0.012 0.018;0.02 0.01;0.012 0.018"
+                  repeatCount="indefinite"
+                />
+              </feTurbulence>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="26" />
+            </filter>
+            <radialGradient id="blob-gradient" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" style="stop-color: var(--accent); stop-opacity: 0.5" />
+              <stop offset="100%" style="stop-color: var(--accent); stop-opacity: 0" />
+            </radialGradient>
+          </defs>
+          <circle cx="100" cy="100" r="78" fill="url(#blob-gradient)" filter="url(#blob-goo)" />
+        </svg>
+        <canvas id="orb" class="orb-canvas" width="56" height="56"></canvas>
+        <div class="header-text">
+          <div class="title">Vocalize</div>
+          <div id="status-line" class="muted status-line">Idle</div>
+        </div>
+        <button id="popout-btn" class="btn-icon" title="Open in a separate window">⤢</button>
+        <button id="options-btn" class="btn-icon" title="Settings">⚙</button>
+      </header>
+
+      <section id="server-warning" class="server-warning hairline" hidden>
+        <span>Can't reach server.</span>
+        <form id="server-form" class="server-form">
+          <input id="server-url-inline" class="text-input" type="text" placeholder="http://127.0.0.1:8420" />
+          <button id="server-save-btn" class="btn-secondary" type="submit">Save</button>
+        </form>
+      </section>
+
+      <section class="row controls-row">
+        <button id="read-page-btn" class="btn-primary">Read page</button>
+        <button id="select-region-btn" class="btn-secondary">Select region</button>
+      </section>
+
+      <section class="seek-row">
+        <input id="seek-slider" class="seek-slider" type="range" min="0" max="0" step="0.1" value="0" />
+        <div class="seek-time">
+          <span id="seek-current">0:00</span>
+          <span id="seek-total">0:00</span>
+        </div>
+      </section>
+
+      <section class="row playback-row">
+        <button id="pause-btn" class="btn-icon" title="Pause">⏸</button>
+        <button id="resume-btn" class="btn-icon" title="Resume">▶</button>
+        <button id="back10-btn" class="btn-icon" title="Back 10s">−10</button>
+        <button id="back5-btn" class="btn-icon" title="Back 5s">−5</button>
+        <button id="restart-btn" class="btn-icon" title="Restart">⟲</button>
+        <button id="stop-btn" class="btn-icon" title="Stop">⏹</button>
+      </section>
+
+      <section class="row">
+        <select id="voice-select" title="Voice"></select>
+      </section>
+
+      <section class="card insights-card">
+        <div class="insights-header">
+          <span class="badge-pill">Insights</span>
+          <label class="speak-toggle">
+            <input type="checkbox" id="speak-toggle" />
+            <span>Speak responses</span>
+          </label>
+        </div>
+        <div id="insights-text" class="insights-text muted">
+          Click "Read page" to get a short explanation of this page.
+        </div>
+      </section>
+
+      <section class="card chat-card">
+        <div id="chat-log" class="chat-log"></div>
+        <form id="chat-form" class="chat-form">
+          <input id="chat-input" class="text-input" type="text" placeholder="Ask about this page…" autocomplete="off" />
+          <button type="submit" class="btn-primary">Send</button>
+        </form>
+      </section>
+    </div>
+    <script type="module" src="./popup.ts"></script>
+  </body>
+</html>
